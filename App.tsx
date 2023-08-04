@@ -1,12 +1,32 @@
+import axios from "axios";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import {
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View,
+    useWindowDimensions,
+} from "react-native";
+import { TOKEN } from "./src/constants";
+import { TSort } from "./src/types";
 
 export default function App() {
+    const [data, setData] = useState<any>();
+
+    useEffect(() => {
+        getMovies();
+        console.warn(data);
+    }, []);
+
+    function getMovies() {}
+
     return (
-        <View style={styles.container}>
-            <Text>PRIVET!!!</Text>
+        <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
-        </View>
+        </SafeAreaView>
     );
 }
 
