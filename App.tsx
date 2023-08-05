@@ -2,6 +2,7 @@ import axios from "axios";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import {
+    FlatList,
     Pressable,
     SafeAreaView,
     StyleSheet,
@@ -9,38 +10,72 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     View,
-    useWindowDimensions,
 } from "react-native";
-import { TMovie, TSort } from "./src/types";
-import { FetchMovies } from "./src/service/api";
+import { TGenres, TMovie, TSort } from "./src/types";
+import { FetchGenres, FetchMovies } from "./src/service/api";
+import MoviesCard from "./src/components/movieCard/MoviesCard";
+import { movieData } from "./src/service/testData";
 
 export default function App() {
-    const [data, setData] = useState<TMovie[]>([]);
+    const [moviesList, setMoviesList] = useState<TMovie[]>([]);
+    const [genresList, setGenresList] = useState<TGenres[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
+        setIsLoading(true);
         getMovies();
+        getGenres();
+        setIsLoading(false);
     }, []);
 
     async function getMovies() {
         const result: TMovie[] = await FetchMovies();
-        setData(result);
+
+        setMoviesList(result);
     }
 
+    async function getGenres() {
+        const result: TGenres[] = await FetchGenres();
+        setGenresList(result);
+    }
+
+    if (isLoading) return <Text>Загрузка...</Text>;
+
     return (
-        <SafeAreaView style={styles.container}>
-            <Pressable onPress={() => console.warn(data)}>
-                <Text>НАжми на меня</Text>
-            </Pressable>
-            <StatusBar style="auto" />
+        <SafeAreaView style={styles.screen}>
+            <View style={styles.container}>
+                {/* <Pressable onPress={() => console.warn(moviesList)}>
+                    <Text>ПРиветик!!!</Text>
+                </Pressable> */}
+                <FlatList
+                    // style={{ height: 500 }}
+                    contentContainerStyle={{}}
+                    data={movieData}
+                    renderItem={({ item: movie }) => (
+                        <MoviesCard
+                            key={movie.id}
+                            movie={movie}
+                            genresList={genresList}
+                        />
+                    )}
+                    numColumns={3}
+                ></FlatList>
+                {/* <MoviesCard movie={moviesList[0]} genresList={genresList} /> */}
+            </View>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    screen: {
         flex: 1,
         backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
+    },
+    container: {
+        flex: 1,
+        flexDirection: "row",
+        padding: 10,
+        paddingTop: 40,
+        flexWrap: "wrap",
     },
 });
