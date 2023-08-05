@@ -1,6 +1,5 @@
 import { TBySort } from "../types";
 
-const TOKEN = "";
 const baseURL = "https://api.themoviedb.org/3";
 const postersURL = "https://image.tmdb.org/t/p/w185";
 
@@ -23,4 +22,4 @@ const sortList: TBySort[] = [
     },
 ];
 
-export { TOKEN, sortList, baseURL, postersURL };
+export { sortList, baseURL, postersURL };
