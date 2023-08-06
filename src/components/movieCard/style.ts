@@ -26,9 +26,11 @@ export const MoviesCardStyles = StyleSheet.create({
     title: {
         fontFamily: fontRegular,
         fontSize: titleSize,
+        marginBottom: 1 * vw,
     },
     genres: {
         fontFamily: fontLight,
+        marginBottom: 1 * vw,
     },
 });
 

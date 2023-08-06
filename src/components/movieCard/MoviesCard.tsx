@@ -64,7 +64,7 @@ export default function MoviesCard({
             />
             <Text style={st.title}>{truncateStr(title, 10)}</Text>
             <Text style={st.genres}>
-                {findTwoFirstGenreName(genre_ids, genresList)}
+                {truncateStr(findTwoFirstGenreName(genre_ids, genresList), 12)}
             </Text>
             <Rating
                 style={{ alignSelf: "flex-start" }}
