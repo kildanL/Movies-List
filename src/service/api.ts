@@ -28,6 +28,6 @@ export async function FetchGenres() {
                 Authorization: `Bearer ${TOKEN}`,
             },
         })
-        .then((response: AxiosResponse) => response.data)
+        .then((response: AxiosResponse) => response.data.genres)
         .catch((error) => console.log(error));
 }
