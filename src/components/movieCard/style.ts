@@ -13,7 +13,7 @@ import {
 
 export const MoviesCardStyles = StyleSheet.create({
     wrapper: {
-        width: "33%",
+        width: "100%",
         padding: 1.5 * vw,
         overflow: "hidden",
     },
@@ -33,24 +33,3 @@ export const MoviesCardStyles = StyleSheet.create({
         marginBottom: 1 * vw,
     },
 });
-
-// export function MoviesCardStyles() {
-//     const { width, height } = useWindowDimensions();
-
-//     const vw = width / 100;
-//     const vh = height / 100;
-
-//     return StyleSheet.create({
-//         wrapper: {
-//             width: "33%",
-//             // height: 20 * vh,
-//             padding: 10,
-//         },
-//         poster: {
-//             width: "100%",
-//             // height: "100%",
-//             height: 20 * vh,
-//             resizeMode: "cover",
-//         },
-//     });
-// }

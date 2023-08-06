@@ -1,28 +1,16 @@
 import axios from "axios";
 import { useFonts } from "expo-font";
 import { useCallback } from "react";
-import { useEffect, useState } from "react";
-import {
-    FlatList,
-    Pressable,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableHighlight,
-    TouchableOpacity,
-    View,
-    StatusBar,
-    useWindowDimensions,
-    ScrollView,
-} from "react-native";
-import { TGenres, TMovie, TSort } from "./src/types";
-import { FetchGenres, FetchMovies } from "./src/service/api";
-import MoviesCard from "./src/components/movieCard/MoviesCard";
-import { movieData } from "./src/service/testData";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { fontBlackItalic, fontBoldItalic, vh, vw } from "./src/constants/style";
+import MovieList from "./src/screens/movieList/MovieList";
+import MovieScreen from "./src/screens/movieScreen/MovieScreen";
+import { MovieListStackParamList } from "./src/types";
 
 SplashScreen.preventAutoHideAsync();
+const Stack = createStackNavigator<MovieListStackParamList>();
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -35,16 +23,6 @@ export default function App() {
         "Lato Light Italic": require("./assets/fonts/Lato-LightItalic.ttf"),
         "Lato Regular Italic": require("./assets/fonts/Lato-Italic.ttf"),
     });
-    const [moviesList, setMoviesList] = useState<TMovie[]>([]);
-    const [genresList, setGenresList] = useState<TGenres[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    useEffect(() => {
-        setIsLoading(true);
-        getMovies();
-        getGenres();
-        setIsLoading(false);
-    }, []);
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
@@ -56,51 +34,22 @@ export default function App() {
         return null;
     }
 
-    async function getMovies() {
-        const result: TMovie[] = await FetchMovies();
-        setMoviesList(result);
-    }
-
-    async function getGenres() {
-        const result: TGenres[] = await FetchGenres();
-        setGenresList(result);
-    }
-
     return (
         <SafeAreaView style={styles.screen} onLayout={onLayoutRootView}>
-            <FlatList
-                contentContainerStyle={{ padding: 5 }}
-                ListHeaderComponent={() => (
-                    <View
-                        style={{
-                            width: "100%",
-                            // height: "20%",
-                            // width: 100,
-                            height: 8 * vh,
-                            // backgroundColor: "#000",
-                        }}
-                    >
-                        <Text
-                            style={{
-                                fontFamily: fontBlackItalic,
-                                fontSize: 10 * vw,
-                            }}
-                        >
-                            Фильмы
-                        </Text>
-                    </View>
-                )}
-                // stickyHeaderIndices={[0]}
-                data={moviesList}
-                renderItem={({ item: movie }) => (
-                    <MoviesCard
-                        key={movie.id}
-                        movie={movie}
-                        genresList={genresList}
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="MovieList">
+                    <Stack.Screen
+                        name="MovieList"
+                        component={MovieList}
+                        options={{ headerShown: false }}
                     />
-                )}
-                numColumns={3}
-            ></FlatList>
+                    <Stack.Screen
+                        name="MovieScreen"
+                        component={MovieScreen}
+                        options={{ headerShown: false }}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
             <StatusBar />
         </SafeAreaView>
     );

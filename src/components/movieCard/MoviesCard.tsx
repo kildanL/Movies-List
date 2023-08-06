@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 // import { MoviesCardStyles as st } from "./style";
 import { postersURL } from "../../constants";
 import { TGenres, TMovie } from "../../types";
 import { MoviesCardStyles } from "./style";
 import { MoviesCardStyles as st } from "./style";
 import { Rating } from "react-native-ratings";
+import { useNavigation } from "@react-navigation/native";
 
 export default function MoviesCard({
     movie,
@@ -15,6 +16,8 @@ export default function MoviesCard({
     genresList: TGenres[];
 }) {
     const { poster_path, title, genre_ids, vote_average } = movie;
+    // const navigationProp = useNavigation<MovieListStackNavigationProp>();
+    // const { navigation } = navigationProp;
 
     function findTwoFirstGenreName(
         genre_ids: number[],
@@ -32,7 +35,6 @@ export default function MoviesCard({
 
         let strArray: string[] = UpperFirstLetter(result);
         let str: string = strArray.slice(0, 2).join("/ ");
-        console.log(str);
         return str;
     }
 
