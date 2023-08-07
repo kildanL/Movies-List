@@ -5,6 +5,7 @@ import {
 } from "react-native-responsive-screen";
 import {
     fontBlack,
+    fontBold,
     fontLight,
     fontRegular,
     titleSize,
@@ -28,7 +29,7 @@ export const MoviesCardStyles = StyleSheet.create({
         position: "relative",
     },
     title: {
-        fontFamily: fontBlack,
+        fontFamily: fontBold,
         fontSize: titleSize,
         marginBottom: 1 * vw,
         color: whiteColor,

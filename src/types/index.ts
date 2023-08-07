@@ -20,6 +20,29 @@ export type TMovie = {
     vote_count: number;
 };
 
+export type TMovieInfo = {
+    adult: false;
+    backdrop_path: "/l94l89eMmFKh7na2a1u5q67VgNx.jpg";
+    belongs_to_collection: null;
+    budget: 0;
+    genres: { id: number; name: string }[];
+    homepage: string;
+    id: number;
+    original_title: string;
+    overview: string;
+    popularity: number;
+    poster_path: string;
+    release_date: string;
+    revenue: number;
+    runtime: number;
+    status: string;
+    tagline: string;
+    title: string;
+    video: boolean;
+    vote_average: number;
+    vote_count: number;
+};
+
 export type TBySort = {
     name: string;
     bySort: TSort;

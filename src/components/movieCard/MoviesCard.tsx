@@ -74,10 +74,7 @@ export default function MoviesCard({
                 }}
             >
                 <LinearGradient
-                    // style={{ width: "100%", height: 20 * vh }}
-                    // start={{ x: 0.1, y: 0.5 }}
-                    // end={{ x: 0.1, y: 0.2 }}
-                    colors={["rgba(84,73,120,0.1)", "rgba(28,20,56,1)"]}
+                    colors={["transparent", mainBGcolor]}
                     locations={[0.7, 0.95]}
                     style={{
                         position: "absolute",
@@ -94,19 +91,6 @@ export default function MoviesCard({
                 {truncateStr(findTwoFirstGenreName(genre_ids, genresList), 15)}
             </Text>
             <AirbnbRating
-                // tintColor={mainBGcolor}
-                // ratingBackgroundColor={mainBGcolor}
-                // ratingTextColor={mainBGcolor}
-                // ratingColor={mainBGcolor}
-                // type="custom"
-                // style={{
-                //     alignSelf: "flex-start",
-                //     backgroundColor: mainBGcolor,
-                // }}
-                // ratingCount={5}
-                // readonly
-                // imageSize={13}
-                // startingValue={divVotes(vote_average)}
                 defaultRating={divVotes(vote_average)}
                 count={5}
                 size={3 * vw}
@@ -115,8 +99,6 @@ export default function MoviesCard({
                 ratingContainerStyle={{
                     flexDirection: "row-reverse",
                     alignSelf: "flex-start",
-                    // alignItems: "flex-end",
-                    // justifyContent: "flex-end",
                 }}
             />
         </View>

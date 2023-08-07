@@ -11,12 +11,12 @@ export const descriptionSize = 3 * vw;
 export const regularSize = 5 * vw;
 
 //typography
-export const fontBlack = "Lato Bold";
+export const fontBlack = "Lato Black";
 export const fontBold = "Lato Bold";
 export const fontRegular = "Lato Regular";
 export const fontLight = "Lato Light";
 
-export const fontBlackItalic = "Lato Bold Italic";
+export const fontBlackItalic = "Lato Black Italic";
 export const fontBoldItalic = "Lato Bold Italic";
 export const fontRegularItalic = "Lato Regular Italic";
 export const fontLightItalic = "Lato Light Italic";
@@ -24,6 +24,7 @@ export const fontLightItalic = "Lato Light Italic";
 //colors
 export const mainBGcolor = "rgba(17, 15, 43, 1)";
 export const whiteColor = "#fff";
+export const greyColor = "rgba(255,255,255,.7)";
 export const greenColor = "rgba(56, 210, 174, 1)";
 export const orangeColor = "rgba(255, 138, 92, 1)";
 export const purpleColor = "rgba(210, 41, 196, 1)";

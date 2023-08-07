@@ -59,12 +59,12 @@ export default function MovieList() {
                     >
                         <Text
                             style={{
-                                fontFamily: fontRegular,
+                                fontFamily: fontBlack,
                                 fontSize: 10 * vw,
                                 color: whiteColor,
                             }}
                         >
-                            Фильмы
+                            фильмы
                         </Text>
                     </Pressable>
                 )}

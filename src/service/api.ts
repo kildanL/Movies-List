@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { baseURL } from "../constants";
-import { TGenres, TMovie, TSort } from "../types";
+import { TGenres, TMovie, TMovieInfo, TSort } from "../types";
 import { TOKEN } from "../constants/secretKey";
 
 axios.defaults.baseURL = baseURL;
@@ -20,9 +20,9 @@ export async function FetchMovies(sortType?: TSort): Promise<TMovie[]> {
         .catch((error) => console.log(error));
 }
 
-export async function FetchMoviebyId(id: number): Promise<TMovie> {
+export async function FetchMoviebyId(id: number): Promise<TMovieInfo> {
     return await axios
-        .get<TMovie>(`/movie/${id}?language=ru-RU`, {
+        .get<TMovieInfo>(`/movie/${id}?language=ru-RU`, {
             headers: {
                 accept: "application/json",
                 Authorization: `Bearer ${TOKEN}`,
