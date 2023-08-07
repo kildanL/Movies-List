@@ -1,15 +1,7 @@
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-
 export type MovieListStackParamList = {
     MovieList: undefined;
     MovieScreen: TMovie;
 };
-
-// export type MovieListStackNavigationProp = NativeStackScreenProps<
-//     MovieListStackParamList,
-//     "MovieList",
-//     "MovieScreen"
-// >;
 
 export type TMovie = {
     adult: boolean;

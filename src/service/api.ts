@@ -20,6 +20,18 @@ export async function FetchMovies(sortType?: TSort): Promise<TMovie[]> {
         .catch((error) => console.log(error));
 }
 
+export async function FetchMoviebyId(id: number): Promise<TMovie> {
+    return await axios
+        .get<TMovie>(`/movie/${id}?language=ru-RU`, {
+            headers: {
+                accept: "application/json",
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        })
+        .then((response: AxiosResponse) => response.data)
+        .catch((error) => console.log(error));
+}
+
 export async function FetchGenres() {
     return await axios
         .get<TGenres>("/genre/movie/list?language=ru", {

@@ -9,7 +9,16 @@ import {
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { MovieListStackParamList, TGenres, TMovie } from "../../types";
 import { FetchGenres, FetchMovies } from "../../service/api";
-import { fontBlackItalic, vh, vw } from "../../constants/style";
+import {
+    fontBlack,
+    fontBlackItalic,
+    fontLight,
+    fontRegular,
+    mainBGcolor,
+    vh,
+    vw,
+    whiteColor,
+} from "../../constants/style";
 import MoviesCard from "../../components/movieCard/MoviesCard";
 
 export default function MovieList() {
@@ -37,7 +46,7 @@ export default function MovieList() {
         setGenresList(result);
     }
     return (
-        <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <View style={{ flex: 1, backgroundColor: mainBGcolor }}>
             <FlatList
                 contentContainerStyle={{ padding: 5 }}
                 ListHeaderComponent={() => (
@@ -50,11 +59,12 @@ export default function MovieList() {
                     >
                         <Text
                             style={{
-                                fontFamily: fontBlackItalic,
+                                fontFamily: fontRegular,
                                 fontSize: 10 * vw,
+                                color: whiteColor,
                             }}
                         >
-                            фильмы
+                            Фильмы
                         </Text>
                     </Pressable>
                 )}

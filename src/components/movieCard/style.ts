@@ -4,11 +4,13 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import {
+    fontBlack,
     fontLight,
     fontRegular,
     titleSize,
     vh,
     vw,
+    whiteColor,
 } from "../../constants/style";
 
 export const MoviesCardStyles = StyleSheet.create({
@@ -22,14 +24,19 @@ export const MoviesCardStyles = StyleSheet.create({
         height: 20 * vh,
         resizeMode: "cover",
         borderRadius: 3 * vw,
+        overflow: "hidden",
+        position: "relative",
     },
     title: {
-        fontFamily: fontRegular,
+        fontFamily: fontBlack,
         fontSize: titleSize,
         marginBottom: 1 * vw,
+        color: whiteColor,
     },
     genres: {
         fontFamily: fontLight,
+        fontSize: 3 * vw,
         marginBottom: 1 * vw,
+        color: whiteColor,
     },
 });
