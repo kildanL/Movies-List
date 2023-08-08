@@ -28,4 +28,10 @@ export const ButtonSortStyles = StyleSheet.create({
         overflow: "visible",
         borderRadius: 8 * vw,
     },
+    checked: {
+        backgroundColor: whiteColor,
+    },
+    checkedText: {
+        color: "black",
+    },
 });

@@ -13,6 +13,7 @@ import {
     MovieListStackParamList,
     TGenres,
     TMovie,
+    TSort,
     TSortMovie,
 } from "../../types";
 import { FetchGenres, FetchMovies } from "../../service/api";
@@ -35,6 +36,7 @@ export default function MovieList() {
     const [moviesList, setMoviesList] = useState<TMovie[]>([]);
     const [genresList, setGenresList] = useState<TGenres[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [currentSort, setCurrentSort] = useState<number>(0);
 
     const { navigate } =
         useNavigation<NavigationProp<MovieListStackParamList>>();
@@ -55,26 +57,17 @@ export default function MovieList() {
         const result: TGenres[] = await FetchGenres();
         setGenresList(result);
     }
-    // type TSort = {
-    //     title: string;
-    //     horizontal: boolean;
-    //     data: readonly unknown[];
-    // };
-    // const sections: TSort[] = [
-    //     {
-    //         title: "Любимые жанры",
-    //         horizontal: true,
-    //         data: sortData,
-    //     },
-    //     {
-    //         title: "Фильмы",
-    //         horizontal: false,
-    //         data: moviesList,
-    //     },
-    // ];
+
+    async function changeSort(id: number, sortType: TSort) {
+        setCurrentSort(id);
+        const result: TMovie[] = await FetchMovies(sortType);
+        setMoviesList(result);
+    }
+
     if (!moviesList) {
         return <Text>Фильмов нет!</Text>;
     }
+
     const renderMovieList = moviesList.map((movie) => (
         <TouchableOpacity
             key={movie.id}
@@ -97,7 +90,9 @@ export default function MovieList() {
                     data={sortData}
                     renderItem={({ item }) => (
                         <ButtonSort
-                            checked
+                            key={item.id}
+                            onPress={() => changeSort(item.id, item.sort)}
+                            checked={currentSort === item.id}
                             text={item.name}
                             backgroundColor={item.color}
                         />
@@ -106,59 +101,6 @@ export default function MovieList() {
                 <Text style={st.headerList}>Фильмы</Text>
                 <View style={st.movieListContainer}>{renderMovieList}</View>
             </ScrollView>
-            {/* <SectionList
-                sections={sections}
-                stickySectionHeadersEnabled={false}
-                renderSectionHeader={({ section }) => (
-                    <>
-                        <Text style={st.headerList}>
-                            {section.title}
-                        </Text>
-                        {section.horizontal ? (
-                            <FlatList
-                                horizontal
-                                data={section.data}
-                                renderItem={({ item }) => (
-                                    <ListItem item={item} />
-                                )}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        ) : null}
-                    </>
-                )}
-            /> */}
-
-            {/* <FlatList
-                contentContainerStyle={{ padding: 5 }}
-                ListHeaderComponent={() => (
-                    <>
-                        <Text
-                            style={{
-                                fontFamily: fontBlack,
-                                fontSize: 10 * vw,
-                                color: whiteColor,
-                            }}
-                        >
-                            фильмы
-                        </Text>
-                    </>
-                )}
-                data={moviesList}
-                renderItem={({ item: movie, index }) => (
-                    <TouchableOpacity
-                        key={index.toString()}
-                        onPress={() => navigate("MovieScreen", movie)}
-                        style={{ width: "33%" }}
-                    >
-                        <MoviesCard
-                            key={movie.id}
-                            movie={movie}
-                            genresList={genresList}
-                        />
-                    </TouchableOpacity>
-                )}
-                numColumns={3}
-            ></FlatList> */}
         </View>
     );
 }
