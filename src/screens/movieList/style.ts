@@ -13,7 +13,8 @@ export const MovieListStyles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         padding: 5,
-        justifyContent: "center",
+        justifyContent: "flex-start",
+        alignItems: "center",
     },
     sortContainer: {
         padding: 10,
