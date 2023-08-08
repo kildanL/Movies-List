@@ -5,9 +5,16 @@ import {
     Text,
     TouchableOpacity,
     View,
+    SectionList,
+    ScrollView,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { MovieListStackParamList, TGenres, TMovie } from "../../types";
+import {
+    MovieListStackParamList,
+    TGenres,
+    TMovie,
+    TSortMovie,
+} from "../../types";
 import { FetchGenres, FetchMovies } from "../../service/api";
 import {
     fontBlack,
@@ -20,6 +27,9 @@ import {
     whiteColor,
 } from "../../constants/style";
 import MoviesCard from "../../components/movieCard/MoviesCard";
+import { sortData } from "../../service/testData";
+import ButtonSort from "../../components/buttonSort/ButtonSort";
+import { MovieListStyles as st } from "./style";
 
 export default function MovieList() {
     const [moviesList, setMoviesList] = useState<TMovie[]>([]);
@@ -45,18 +55,83 @@ export default function MovieList() {
         const result: TGenres[] = await FetchGenres();
         setGenresList(result);
     }
+    // type TSort = {
+    //     title: string;
+    //     horizontal: boolean;
+    //     data: readonly unknown[];
+    // };
+    // const sections: TSort[] = [
+    //     {
+    //         title: "Любимые жанры",
+    //         horizontal: true,
+    //         data: sortData,
+    //     },
+    //     {
+    //         title: "Фильмы",
+    //         horizontal: false,
+    //         data: moviesList,
+    //     },
+    // ];
+    if (!moviesList) {
+        return <Text>Фильмов нет!</Text>;
+    }
+    const renderMovieList = moviesList.map((movie) => (
+        <TouchableOpacity
+            key={movie.id}
+            onPress={() => navigate("MovieScreen", movie)}
+            style={{ width: "33%" }}
+        >
+            <MoviesCard key={movie.id} movie={movie} genresList={genresList} />
+        </TouchableOpacity>
+    ));
+
     return (
         <View style={{ flex: 1, backgroundColor: mainBGcolor }}>
-            <FlatList
+            <ScrollView style={{ width: "100%", paddingTop: 10 }}>
+                <Text style={[st.headerList]}>Сортировка</Text>
+                <FlatList
+                    removeClippedSubviews
+                    contentContainerStyle={st.sortContainer}
+                    showsHorizontalScrollIndicator={false}
+                    horizontal
+                    data={sortData}
+                    renderItem={({ item }) => (
+                        <ButtonSort
+                            checked
+                            text={item.name}
+                            backgroundColor={item.color}
+                        />
+                    )}
+                />
+                <Text style={st.headerList}>Фильмы</Text>
+                <View style={st.movieListContainer}>{renderMovieList}</View>
+            </ScrollView>
+            {/* <SectionList
+                sections={sections}
+                stickySectionHeadersEnabled={false}
+                renderSectionHeader={({ section }) => (
+                    <>
+                        <Text style={st.headerList}>
+                            {section.title}
+                        </Text>
+                        {section.horizontal ? (
+                            <FlatList
+                                horizontal
+                                data={section.data}
+                                renderItem={({ item }) => (
+                                    <ListItem item={item} />
+                                )}
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        ) : null}
+                    </>
+                )}
+            /> */}
+
+            {/* <FlatList
                 contentContainerStyle={{ padding: 5 }}
                 ListHeaderComponent={() => (
-                    <Pressable
-                        onPress={() => console.warn("Click!")}
-                        style={{
-                            width: "100%",
-                            height: 8 * vh,
-                        }}
-                    >
+                    <>
                         <Text
                             style={{
                                 fontFamily: fontBlack,
@@ -66,7 +141,7 @@ export default function MovieList() {
                         >
                             фильмы
                         </Text>
-                    </Pressable>
+                    </>
                 )}
                 data={moviesList}
                 renderItem={({ item: movie, index }) => (
@@ -83,7 +158,7 @@ export default function MovieList() {
                     </TouchableOpacity>
                 )}
                 numColumns={3}
-            ></FlatList>
+            ></FlatList> */}
         </View>
     );
 }

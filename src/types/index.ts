@@ -48,6 +48,13 @@ export type TBySort = {
     bySort: TSort;
 };
 
+export type TSortMovie = {
+    id: number;
+    name: string;
+    sort: TSort;
+    color: string;
+};
+
 export type TSort =
     | "popularity.desc"
     | "revenue.desc"

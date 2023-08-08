@@ -13,6 +13,7 @@ const MovieScreen = () => {
     const { id, title } =
         useRoute<RouteProp<MovieListStackParamList, "MovieScreen">>().params;
     const [movieInfo, setMovieInfo] = useState<TMovieInfo>();
+    const [radioButtons, setRadioButtons] = useState();
 
     useEffect(() => {
         getMovie();
@@ -94,7 +95,7 @@ const MovieScreen = () => {
                         />
 
                         <Text style={st.voteAverage}>
-                            {movieInfo.vote_average / 2}
+                            {(movieInfo.vote_average / 2).toFixed(1)}
                         </Text>
                     </View>
                     <Text style={st.voteAverage}>{firstTwoGenres()}</Text>
