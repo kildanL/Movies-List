@@ -36,20 +36,24 @@ export default function MovieList() {
     const [moviesList, setMoviesList] = useState<TMovie[]>([]);
     const [genresList, setGenresList] = useState<TGenres[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [currentSort, setCurrentSort] = useState<number>(0);
+    const [currentSort, setCurrentSort] = useState<TSort>("popularity.desc");
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const { navigate } =
         useNavigation<NavigationProp<MovieListStackParamList>>();
 
     useEffect(() => {
-        setIsLoading(true);
         getMovies();
         getGenres();
-        setIsLoading(false);
-    }, []);
+    }, [currentPage]);
+
+    useEffect(() => {
+        getMovies();
+        getGenres();
+    }, [currentSort]);
 
     async function getMovies() {
-        const result: TMovie[] = await FetchMovies();
+        const result: TMovie[] = await FetchMovies(currentSort, currentPage);
         setMoviesList(result);
     }
 
@@ -58,10 +62,20 @@ export default function MovieList() {
         setGenresList(result);
     }
 
-    async function changeSort(id: number, sortType: TSort) {
-        setCurrentSort(id);
-        const result: TMovie[] = await FetchMovies(sortType);
-        setMoviesList(result);
+    async function changeSort(sortType: TSort) {
+        setCurrentSort(sortType);
+    }
+
+    async function nextPage(currentPage: number = 1) {
+        if (currentPage < 1000) {
+            setCurrentPage((prev) => prev + 1);
+        }
+    }
+
+    async function prevPage(currentPage: number = 1) {
+        if (currentPage > 1) {
+            setCurrentPage((prev) => prev - 1);
+        }
     }
 
     if (!moviesList) {
@@ -91,8 +105,8 @@ export default function MovieList() {
                     renderItem={({ item }) => (
                         <ButtonSort
                             key={item.id}
-                            onPress={() => changeSort(item.id, item.sort)}
-                            checked={currentSort === item.id}
+                            onPress={() => changeSort(item.sort)}
+                            checked={currentSort === item.sort}
                             text={item.name}
                             backgroundColor={item.color}
                         />
@@ -100,6 +114,28 @@ export default function MovieList() {
                 />
                 <Text style={st.headerList}>Фильмы</Text>
                 <View style={st.movieListContainer}>{renderMovieList}</View>
+
+                <View>
+                    <TouchableOpacity
+                        style={{ padding: 5, backgroundColor: "blue" }}
+                        onPress={() => prevPage(currentPage)}
+                    >
+                        <Text style={{ color: "white", fontSize: 16 }}>
+                            Назад
+                        </Text>
+                    </TouchableOpacity>
+                    <Text style={{ color: "white", fontSize: 16 }}>
+                        {currentPage}
+                    </Text>
+                    <TouchableOpacity
+                        onPress={() => nextPage(currentPage)}
+                        style={{ padding: 5, backgroundColor: "blue" }}
+                    >
+                        <Text style={{ color: "white", fontSize: 16 }}>
+                            Вперёд
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
         </View>
     );

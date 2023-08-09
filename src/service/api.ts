@@ -6,11 +6,12 @@ import { TOKEN } from "../constants/secretKey";
 axios.defaults.baseURL = baseURL;
 
 export async function FetchMovies(
-    sortType: TSort = "popularity.desc"
+    sortType: TSort,
+    page: number
 ): Promise<TMovie[]> {
     return await axios
         .get<TMovie>(
-            `/discover/movie?include_adult=false&include_video=false&language=ru-ru&page=1&sort_by=${sortType}`,
+            `/discover/movie?include_adult=false&include_video=false&language=ru-ru&page=${page}&sort_by=${sortType}`,
             {
                 headers: {
                     accept: "application/json",
