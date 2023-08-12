@@ -1,44 +1,34 @@
 import React, { useEffect, useState } from "react";
 import {
     FlatList,
-    Pressable,
     Text,
     TouchableOpacity,
     View,
-    SectionList,
     ScrollView,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import {
-    MovieListStackParamList,
-    TGenres,
-    TMovie,
-    TSort,
-    TSortMovie,
-} from "../../types";
+import { MovieListStackParamList, TGenres, TMovie, TSort } from "../../types";
 import { FetchGenres, FetchMovies } from "../../service/api";
-import {
-    fontBlack,
-    fontBlackItalic,
-    fontLight,
-    fontRegular,
-    mainBGcolor,
-    vh,
-    vw,
-    whiteColor,
-} from "../../constants/style";
+import { mainBGcolor } from "../../constants/style";
 import MoviesCard from "../../components/movieCard/MoviesCard";
 import { sortData } from "../../service/testData";
 import ButtonSort from "../../components/buttonSort/ButtonSort";
 import { MovieListStyles as st } from "./style";
+import { observer } from "mobx-react-lite";
+import { moviesStore } from "../../stores/moviesStore";
 
-export default function MovieList() {
-    const [moviesList, setMoviesList] = useState<TMovie[]>([]);
-    const [genresList, setGenresList] = useState<TGenres[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [currentSort, setCurrentSort] = useState<TSort>("popularity.desc");
-    const [currentPage, setCurrentPage] = useState<number>(1);
-
+export default observer(function MovieList() {
+    const {
+        moviesList,
+        currentPage,
+        currentSort,
+        getMovies,
+        genresList,
+        changeSort,
+        getGenres,
+        prevPage,
+        nextPage,
+    } = moviesStore;
     const { navigate } =
         useNavigation<NavigationProp<MovieListStackParamList>>();
 
@@ -52,43 +42,29 @@ export default function MovieList() {
         getGenres();
     }, [currentSort]);
 
-    async function getMovies() {
-        const result: TMovie[] = await FetchMovies(currentSort, currentPage);
-        setMoviesList(result);
-    }
-
-    async function getGenres() {
-        const result: TGenres[] = await FetchGenres();
-        setGenresList(result);
-    }
-
-    async function changeSort(sortType: TSort) {
-        setCurrentSort(sortType);
-    }
-
-    async function nextPage(currentPage: number = 1) {
-        if (currentPage < 1000) {
-            setCurrentPage((prev) => prev + 1);
-        }
-    }
-
-    async function prevPage(currentPage: number = 1) {
-        if (currentPage > 1) {
-            setCurrentPage((prev) => prev - 1);
-        }
-    }
-
-    if (!moviesList) {
+    if (!moviesList || !genresList) {
         return <Text>Фильмов нет!</Text>;
     }
 
-    const renderMovieList = moviesList.map((movie) => (
+    if (moviesList.state === "pending" || genresList.state === "pending") {
+        return <Text>Загрузка...</Text>;
+    }
+
+    if (moviesList.state === "rejected" || genresList.state === "rejected") {
+        return <Text>Ошибка</Text>;
+    }
+
+    const renderMovieList = moviesList.value.map((movie) => (
         <TouchableOpacity
             key={movie.id}
             onPress={() => navigate("MovieScreen", movie)}
             style={{ width: "33%" }}
         >
-            <MoviesCard key={movie.id} movie={movie} genresList={genresList} />
+            <MoviesCard
+                key={movie.id}
+                movie={movie}
+                genresList={genresList.value}
+            />
         </TouchableOpacity>
     ));
 
@@ -139,4 +115,4 @@ export default function MovieList() {
             </ScrollView>
         </View>
     );
-}
+});
