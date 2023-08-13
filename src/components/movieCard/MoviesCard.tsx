@@ -25,8 +25,6 @@ export default function MoviesCard({
 }) {
     const { poster_path, title, genre_ids, vote_average, backdrop_path } =
         movie;
-    // const navigationProp = useNavigation<MovieListStackNavigationProp>();
-    // const { navigation } = navigationProp;
 
     function findTwoFirstGenreName(
         genre_ids: number[],

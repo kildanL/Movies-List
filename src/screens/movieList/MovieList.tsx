@@ -17,44 +17,34 @@ import { MovieListStyles as st } from "./style";
 import { observer } from "mobx-react-lite";
 import { moviesStore } from "../../stores/moviesStore";
 
-export default observer(function MovieList() {
-    const {
-        moviesList,
-        currentPage,
-        currentSort,
-        getMovies,
-        genresList,
-        changeSort,
-        getGenres,
-        prevPage,
-        nextPage,
-    } = moviesStore;
+export const MovieList = observer(() => {
     const { navigate } =
         useNavigation<NavigationProp<MovieListStackParamList>>();
 
     useEffect(() => {
-        getMovies();
-        getGenres();
-    }, [currentPage]);
+        moviesStore.getMovies();
+        moviesStore.getGenres();
+    }, [moviesStore.currentPage]);
 
     useEffect(() => {
-        getMovies();
-        getGenres();
-    }, [currentSort]);
+        moviesStore.getMovies();
+        moviesStore.getGenres();
+    }, [moviesStore.currentSort]);
 
-    if (!moviesList || !genresList) {
-        return <Text>Фильмов нет!</Text>;
-    }
+    // if (!moviesStore.moviesList) {
+    //     return <Text>Фильмов нет!!!</Text>;
+    // }
 
-    if (moviesList.state === "pending" || genresList.state === "pending") {
+    if (moviesStore.isLoading) {
         return <Text>Загрузка...</Text>;
     }
 
-    if (moviesList.state === "rejected" || genresList.state === "rejected") {
-        return <Text>Ошибка</Text>;
+    if (moviesStore.error) {
+        console.warn(moviesStore.error);
+        return <Text>{moviesStore.error}</Text>;
     }
 
-    const renderMovieList = moviesList.value.map((movie) => (
+    const renderMovieList = moviesStore.moviesList.map((movie) => (
         <TouchableOpacity
             key={movie.id}
             onPress={() => navigate("MovieScreen", movie)}
@@ -63,7 +53,7 @@ export default observer(function MovieList() {
             <MoviesCard
                 key={movie.id}
                 movie={movie}
-                genresList={genresList.value}
+                genresList={moviesStore.genresList}
             />
         </TouchableOpacity>
     ));
@@ -81,8 +71,8 @@ export default observer(function MovieList() {
                     renderItem={({ item }) => (
                         <ButtonSort
                             key={item.id}
-                            onPress={() => changeSort(item.sort)}
-                            checked={currentSort === item.sort}
+                            onPress={() => moviesStore.changeSort(item.sort)}
+                            checked={moviesStore.currentSort === item.sort}
                             text={item.name}
                             backgroundColor={item.color}
                         />
@@ -94,17 +84,21 @@ export default observer(function MovieList() {
                 <View>
                     <TouchableOpacity
                         style={{ padding: 5, backgroundColor: "blue" }}
-                        onPress={() => prevPage(currentPage)}
+                        onPress={() =>
+                            moviesStore.prevPage(moviesStore.currentPage)
+                        }
                     >
                         <Text style={{ color: "white", fontSize: 16 }}>
                             Назад
                         </Text>
                     </TouchableOpacity>
                     <Text style={{ color: "white", fontSize: 16 }}>
-                        {currentPage}
+                        {moviesStore.currentPage}
                     </Text>
                     <TouchableOpacity
-                        onPress={() => nextPage(currentPage)}
+                        onPress={() =>
+                            moviesStore.nextPage(moviesStore.currentPage)
+                        }
                         style={{ padding: 5, backgroundColor: "blue" }}
                     >
                         <Text style={{ color: "white", fontSize: 16 }}>

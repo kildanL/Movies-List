@@ -8,10 +8,10 @@ axios.defaults.baseURL = baseURL;
 export async function FetchMovies(
     sortType: TSort,
     page: number
-): Promise<TMovie[]> {
+): Promise<AxiosResponse> {
     return await axios
-        .get<TMovie>(
-            `/discover/movie?include_adult=false&include_video=false&language=ru-ru&page=${page}&sort_by=${sortType}`,
+        .get(
+            `/discover/movie?include_adult=false&include_video=false&language=ru-RU&page=${page}&sort_by=${sortType}`,
             {
                 headers: {
                     accept: "application/json",
@@ -19,8 +19,8 @@ export async function FetchMovies(
                 },
             }
         )
-        .then((response: AxiosResponse) => response.data.results)
-        .catch((error) => console.log(error));
+        .then((response: AxiosResponse) => response)
+        .catch((error) => error);
 }
 
 export async function FetchMoviebyId(id: number): Promise<TMovieInfo> {

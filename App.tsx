@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import MovieList from "./src/screens/movieList/MovieList";
+import { MovieList } from "./src/screens/movieList/MovieList";
 import MovieScreen from "./src/screens/movieScreen/MovieScreen";
 import { MovieListStackParamList } from "./src/types";
 
