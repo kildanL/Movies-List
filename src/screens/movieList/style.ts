@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { fontBold, vw, whiteColor } from "../../constants/style";
+import { fontBold, fontLight, vw, whiteColor } from "../../constants/style";
 
 export const MovieListStyles = StyleSheet.create({
     headerList: {
@@ -18,5 +18,20 @@ export const MovieListStyles = StyleSheet.create({
     },
     sortContainer: {
         padding: 10,
+    },
+    btnPagination: {
+        width: "30%",
+        padding: 5,
+        borderRadius: 13,
+        justifyContent: "center",
+        alignItems: "center",
+        borderStyle: "solid",
+        borderWidth: 3,
+        borderColor: "white",
+    },
+    btnPaginationText: {
+        fontFamily: fontLight,
+        color: "white",
+        fontSize: 16,
     },
 });

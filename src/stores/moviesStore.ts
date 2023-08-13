@@ -17,9 +17,6 @@ class MoviesStore {
     }
 
     async getMovies() {
-        // this.moviesList = fromPromise(
-        //     FetchMovies(this.currentSort, this.currentPage)
-        // );
         try {
             this.isLoading = true;
             const result = await FetchMovies(
@@ -81,6 +78,40 @@ class MoviesStore {
             this.currentPage -= 1;
             console.log(this.currentPage);
         }
+    }
+
+    findTwoFirstGenreName(genre_ids: number[], genresList: TGenres[]): string {
+        let result: string[] = [];
+
+        //Find a match with a list of genres and a movie genres
+        for (let i = 0; i < genre_ids.length; i++) {
+            for (let j = 0; j < genresList.length; j++) {
+                if (genre_ids[i] === genresList[j].id)
+                    result.push(genresList[j].name);
+            }
+        }
+
+        let strArray: string[] = this.UpperFirstLetter(result);
+        let str: string = strArray.slice(0, 2).join("/ ");
+        return str;
+    }
+
+    //First letter of str to UpperCase
+    UpperFirstLetter(str: string[]) {
+        return str.map(
+            (genre) => genre.charAt(0).toUpperCase() + genre.slice(1)
+        );
+    }
+
+    //Truncate string
+    truncateStr(str: string, num: number) {
+        if (str.length > num) return str.slice(0, num - 1) + `...`;
+        else return str;
+    }
+
+    //Divide votes
+    divVotes(vote_average: number) {
+        return vote_average / 2;
     }
 }
 

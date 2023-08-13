@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
     FlatList,
     Text,
@@ -8,18 +8,20 @@ import {
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { MovieListStackParamList, TGenres, TMovie, TSort } from "../../types";
-import { FetchGenres, FetchMovies } from "../../service/api";
+
 import { mainBGcolor } from "../../constants/style";
 import MoviesCard from "../../components/movieCard/MoviesCard";
 import { sortData } from "../../service/testData";
 import ButtonSort from "../../components/buttonSort/ButtonSort";
 import { MovieListStyles as st } from "./style";
 import { observer } from "mobx-react-lite";
-import { moviesStore } from "../../stores/moviesStore";
+import { useStores } from "../../context/rootStoreContext";
 
 export const MovieList = observer(() => {
     const { navigate } =
         useNavigation<NavigationProp<MovieListStackParamList>>();
+
+    const { moviesStore } = useStores(); //get from RootContext moviesStore
 
     useEffect(() => {
         moviesStore.getMovies();
@@ -30,10 +32,6 @@ export const MovieList = observer(() => {
         moviesStore.getMovies();
         moviesStore.getGenres();
     }, [moviesStore.currentSort]);
-
-    // if (!moviesStore.moviesList) {
-    //     return <Text>Фильмов нет!!!</Text>;
-    // }
 
     if (moviesStore.isLoading) {
         return <Text>Загрузка...</Text>;
@@ -81,29 +79,33 @@ export const MovieList = observer(() => {
                 <Text style={st.headerList}>Фильмы</Text>
                 <View style={st.movieListContainer}>{renderMovieList}</View>
 
-                <View>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        columnGap: 30,
+                        padding: 30,
+                    }}
+                >
                     <TouchableOpacity
-                        style={{ padding: 5, backgroundColor: "blue" }}
+                        style={st.btnPagination}
                         onPress={() =>
                             moviesStore.prevPage(moviesStore.currentPage)
                         }
                     >
-                        <Text style={{ color: "white", fontSize: 16 }}>
-                            Назад
-                        </Text>
+                        <Text style={st.btnPaginationText}>Назад</Text>
                     </TouchableOpacity>
-                    <Text style={{ color: "white", fontSize: 16 }}>
+                    <Text style={st.btnPaginationText}>
                         {moviesStore.currentPage}
                     </Text>
                     <TouchableOpacity
                         onPress={() =>
                             moviesStore.nextPage(moviesStore.currentPage)
                         }
-                        style={{ padding: 5, backgroundColor: "blue" }}
+                        style={st.btnPagination}
                     >
-                        <Text style={{ color: "white", fontSize: 16 }}>
-                            Вперёд
-                        </Text>
+                        <Text style={st.btnPaginationText}>Вперёд</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

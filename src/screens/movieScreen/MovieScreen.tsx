@@ -13,7 +13,6 @@ const MovieScreen = () => {
     const { id, title } =
         useRoute<RouteProp<MovieListStackParamList, "MovieScreen">>().params;
     const [movieInfo, setMovieInfo] = useState<TMovieInfo>();
-    const [radioButtons, setRadioButtons] = useState();
 
     useEffect(() => {
         getMovie();
@@ -49,7 +48,6 @@ const MovieScreen = () => {
 
     return (
         <ScrollView removeClippedSubviews={true} style={st.container}>
-            {/* <ViewOver */}
             <ImageBackground
                 blurRadius={1}
                 style={st.backdrop}

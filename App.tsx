@@ -1,16 +1,12 @@
-import axios from "axios";
 import { useFonts } from "expo-font";
 import { useCallback } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { MovieList } from "./src/screens/movieList/MovieList";
-import MovieScreen from "./src/screens/movieScreen/MovieScreen";
-import { MovieListStackParamList } from "./src/types";
+import { RootStoreContext } from "./src/context/rootStoreContext";
+import RootStore from "./src/stores/rootStore";
+import AppNavigation from "./src/navigation/AppNavigation";
 
 SplashScreen.preventAutoHideAsync();
-const Stack = createStackNavigator<MovieListStackParamList>();
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -35,23 +31,12 @@ export default function App() {
     }
 
     return (
-        <SafeAreaView style={styles.screen} onLayout={onLayoutRootView}>
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="MovieList">
-                    <Stack.Screen
-                        name="MovieList"
-                        component={MovieList}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="MovieScreen"
-                        component={MovieScreen}
-                        options={{ headerShown: false }}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
-            <StatusBar />
-        </SafeAreaView>
+        <RootStoreContext.Provider value={new RootStore()}>
+            <SafeAreaView style={styles.screen} onLayout={onLayoutRootView}>
+                <AppNavigation />
+                <StatusBar />
+            </SafeAreaView>
+        </RootStoreContext.Provider>
     );
 }
 

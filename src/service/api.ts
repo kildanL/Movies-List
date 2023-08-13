@@ -20,7 +20,7 @@ export async function FetchMovies(
             }
         )
         .then((response: AxiosResponse) => response)
-        .catch((error) => error);
+        .catch((error: AxiosResponse) => error);
 }
 
 export async function FetchMoviebyId(id: number): Promise<TMovieInfo> {
