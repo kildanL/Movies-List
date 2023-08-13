@@ -16,6 +16,7 @@ import ButtonSort from "../../components/buttonSort/ButtonSort";
 import { MovieListStyles as st } from "./style";
 import { observer } from "mobx-react-lite";
 import { useStores } from "../../context/rootStoreContext";
+import Loading from "../../components/loading/Loading";
 
 export const MovieList = observer(() => {
     const { navigate } =
@@ -34,7 +35,7 @@ export const MovieList = observer(() => {
     }, [moviesStore.currentSort]);
 
     if (moviesStore.isLoading) {
-        return <Text>Загрузка...</Text>;
+        return <Loading />;
     }
 
     if (moviesStore.error) {

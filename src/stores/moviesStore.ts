@@ -7,8 +7,10 @@ import axios from "axios";
 class MoviesStore {
     moviesList: TMovie[] = [];
     genresList: TGenres[] = [];
+
     isLoading: boolean = false;
     error: string | null = null;
+
     currentSort: TSort = "popularity.desc";
     currentPage: number = 1;
 

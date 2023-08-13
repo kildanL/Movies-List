@@ -20,6 +20,7 @@ export default function App() {
         "Lato Regular Italic": require("./assets/fonts/Lato-Italic.ttf"),
     });
 
+    //App will not start until the fonts are loaded.
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
             await SplashScreen.hideAsync();
@@ -34,6 +35,7 @@ export default function App() {
         <RootStoreContext.Provider value={new RootStore()}>
             <SafeAreaView style={styles.screen} onLayout={onLayoutRootView}>
                 <AppNavigation />
+
                 <StatusBar />
             </SafeAreaView>
         </RootStoreContext.Provider>
