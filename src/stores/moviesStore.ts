@@ -5,7 +5,7 @@ import { IPromiseBasedObservable, fromPromise } from "mobx-utils";
 import axios from "axios";
 
 class MoviesStore {
-    moviesList: TMovie[] = [];
+    moviesList: TMovie[] = []; //movies list
     genresList: TGenres[] = [];
 
     isLoading: boolean = false;

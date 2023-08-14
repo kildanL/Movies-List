@@ -17,7 +17,7 @@ export const MoviesScreenStyles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#fff",
+        backgroundColor: mainBGcolor,
     },
     container: {
         // paddingTop: 20,

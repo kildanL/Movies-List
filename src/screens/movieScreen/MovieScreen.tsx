@@ -8,26 +8,64 @@ import { postersURL } from "../../constants";
 import { LinearGradient } from "expo-linear-gradient";
 import { mainBGcolor, vh, vw, yellowColor } from "../../constants/style";
 import { AirbnbRating } from "react-native-ratings";
+import Loading from "../../components/loading/Loading";
+import axios from "axios";
+import ButtonHeaderBack from "../../components/buttonHeaderBack/ButtonHeaderBack";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 const MovieScreen = () => {
     const { id, title } =
         useRoute<RouteProp<MovieListStackParamList, "MovieScreen">>().params;
+
+    const { goBack } = useNavigation<NavigationProp<MovieListStackParamList>>();
+
     const [movieInfo, setMovieInfo] = useState<TMovieInfo>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         getMovie();
     }, []);
 
     async function getMovie() {
-        const result: TMovieInfo = await FetchMoviebyId(id);
-        setMovieInfo(result);
+        try {
+            setIsLoading(true);
+
+            const result = await FetchMoviebyId(id);
+
+            setMovieInfo(result.data);
+            setIsLoading(false);
+        } catch (err) {
+            setIsLoading(false);
+            if (axios.isAxiosError(err)) {
+                console.log(err.status);
+
+                if (!err.response) {
+                    setError(null);
+                } else setError(err.response.toString());
+            } else {
+                if (!err) {
+                    setError(null);
+                } else setError(err.toString());
+            }
+        }
+    }
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (error) {
+        return <Text style={{ color: "white" }}>{error}</Text>;
     }
 
     //If movie not found
     if (!movieInfo) {
         return (
             <View style={st.containerNotFound}>
-                <Text>Фильма нет, но вы держитесь!</Text>
+                <Text style={{ color: "white" }}>
+                    Фильма нет, но вы держитесь!
+                </Text>
             </View>
         );
     }
@@ -103,10 +141,13 @@ const MovieScreen = () => {
                     </Text>
                 </View>
             </View>
+
             <View style={{ paddingHorizontal: 5 * vw }}>
                 <Text style={st.headerOverview}>Синопсис:</Text>
                 <Text style={st.textOverview}>{movieInfo.overview}</Text>
             </View>
+
+            <ButtonHeaderBack onPress={() => goBack()} />
         </ScrollView>
     );
 };

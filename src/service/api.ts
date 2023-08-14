@@ -23,7 +23,7 @@ export async function FetchMovies(
         .catch((error: AxiosResponse) => error);
 }
 
-export async function FetchMoviebyId(id: number): Promise<TMovieInfo> {
+export async function FetchMoviebyId(id: number): Promise<AxiosResponse> {
     return await axios
         .get<TMovieInfo>(`/movie/${id}?language=ru-RU`, {
             headers: {
@@ -31,8 +31,8 @@ export async function FetchMoviebyId(id: number): Promise<TMovieInfo> {
                 Authorization: `Bearer ${TOKEN}`,
             },
         })
-        .then((response: AxiosResponse) => response.data)
-        .catch((error) => console.log(error));
+        .then((response: AxiosResponse) => response)
+        .catch((error: AxiosResponse) => error);
 }
 
 export async function FetchGenres() {
