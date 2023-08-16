@@ -1,9 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 import { baseURL } from "../constants";
 import { TGenres, TMovie, TMovieInfo, TSort } from "../types";
-import { TOKEN } from "../constants/secretKey";
+// import { TOKEN } from "../constants/secretKey";
 
 axios.defaults.baseURL = baseURL;
+
+const TOKEN = ""; //Auth token
 
 export async function FetchMovies(
     sortType: TSort,
