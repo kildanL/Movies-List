@@ -30,7 +30,7 @@ cd Movies-List
 npm install
 ```
 
-4. Ввести полученный API ключ в переменную `javascript const TOKEN = '';` который находится:
+4. Ввести полученный API ключ в переменную `const TOKEN = '';` который находится:
 
 ```
 ├─ src
